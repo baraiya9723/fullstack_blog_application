@@ -6,11 +6,12 @@ const blogRoutes = require("./routes/blogRoutes");
 const errorHandler = require("./middleware/errorMiddleware");
 const authRoutes = require("./routes/authRoutes");
 const { protect } = require("./middleware/authMiddleware");
+const cookieParser = require('cookie-parser');
 dotenv.config();
 connectDB();
 
 const app = express();
-
+app.use(cookieParser());
 app.use(
   cors({
     origin: "http://localhost:3000", // Replace with your frontend URL

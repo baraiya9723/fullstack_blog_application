@@ -8,6 +8,8 @@ import Login from './Login';
 import { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 import { AuthContext } from './contex/AuthContext';
+import axios from 'axios'
+axios.defaults.withCredentials = true;   // this line is allow to send req.cookies.token with every axios req 
 function App() {
   const { isAuthenticated } = useContext(AuthContext);
   // const [isAuthenticated,setIsAuthenticated] = useState(true)

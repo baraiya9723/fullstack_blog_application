@@ -60,7 +60,11 @@ const loginUser = async (req, res) => {
         });
   
         // Set token in cookies
-        res.cookie("token", token, { httpOnly: true, secure: true, maxAge: 3600000 });
+        res.cookie("token", token, token, {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === 'production', // Use true in production (HTTPS)
+          sameSite: 'strict'
+      });
   
         res.status(200).json({
           _id: user._id,
@@ -80,8 +84,7 @@ const loginUser = async (req, res) => {
 
   const logoutUser = (req, res) => {
     res.cookie("token", "", {
-      httpOnly: true,
-      expires: new Date(0), // Expire the cookie immediately
+      httpOnly: true // Expire the cookie immediately
     });
   
     res.status(200).json({ message: "Logged out successfully" });
@@ -90,7 +93,7 @@ const loginUser = async (req, res) => {
 
   const validateToken = (req, res) => {
     const token = req?.cookies?.token;
-
+  console.log("token ?" ,token)
     if (!token) {
       return res.status(401).json({ message: 'Not authenticated' });
     }
